@@ -9,7 +9,7 @@ Note: ssml must be well-formed according to:
     https://www.w3.org/TR/speech-synthesis/
 """
 from google.cloud import texttospeech
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"]=""
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/Users/alanhernandez/Downloads/swift-firmament-365303-039e5e7f9d95.json"
 
 # Instantiates a client
 client = texttospeech.TextToSpeechClient()
