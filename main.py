@@ -1,5 +1,5 @@
 import requests
-import os
+
 
 
 """Synthesizes speech from the input string of text or ssml.
@@ -8,14 +8,39 @@ Make sure to be working in a virtual environment.
 Note: ssml must be well-formed according to:
     https://www.w3.org/TR/speech-synthesis/
 """
+import os
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/Users/alanhernandez/Downloads/swift-firmament-365303-039e5e7f9d95.json"
 from google.cloud import texttospeech
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "swift-firmament-365303-039e5e7f9d95.json"
-
 # Instantiates a client
 client = texttospeech.TextToSpeechClient()
 
+#----------------------------------------------------------
+#PDF converting part
+
+
+# importing required modules
+import PyPDF2
+
+# creating a pdf file object
+pdfFileObj = open('/Users/alanhernandez/Downloads/beauty_and_the_beast.pdf', 'rb')
+
+# creating a pdf reader object
+pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
+
+# printing number of pages in pdf file
+print(pdfReader.numPages)
+
+# creating a page object
+pageObj = pdfReader.getPage(1)
+
+# extracting text from page
+print(pageObj.extractText())
+
+# closing the pdf file object
+pdfFileObj.close()
+
 # Set the text input to be synthesized
-synthesis_input = texttospeech.SynthesisInput(text="Hello, World Oh my god, look at his butt!")
+synthesis_input = texttospeech.SynthesisInput(text=pageObj.extractText())
 
 # Build the voice request, select the language code ("en-US") and the ssml
 # voice gender ("neutral")
@@ -39,3 +64,4 @@ with open("output.mp3", "wb") as out:
     # Write the response to the output file.
     out.write(response.audio_content)
     print('Audio content written to file "output.mp3"')
+
